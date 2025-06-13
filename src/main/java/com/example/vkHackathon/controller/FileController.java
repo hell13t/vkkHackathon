@@ -1,6 +1,9 @@
 package com.example.vkHackathon.controller;
 
+import com.example.vkHackathon.Service.FileService;
 import com.example.vkHackathon.dto.ResponseDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -8,10 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/file")
 public class FileController {
 
+    private final FileService fileService;
 
-    @PostMapping
-    public ResponseDto upload (MultipartFile file) {
-        return null;
+    @PostMapping(consumes = "multipart/form-data")
+    public ResponseDto uploadFile(
+            @RequestParam("file") MultipartFile file
+    ) {
+        return fileService.upload(file);
     }
-
 }
