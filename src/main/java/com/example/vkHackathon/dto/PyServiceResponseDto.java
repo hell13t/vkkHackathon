@@ -22,7 +22,7 @@ public class PyServiceResponseDto {
     private int repatriationPeriod;
     private String contractKNP;
     private String contractKVO;
-    private boolean relatedToRF_RB_UA;
+    private boolean relatedToRF_RB_UA;  // проверка на санкции из excel файла
     private String foreignPartnerName;
     private String foreignPartnerBin;
     private String foreignPartnerCountry;
