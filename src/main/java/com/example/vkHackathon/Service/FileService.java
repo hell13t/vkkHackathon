@@ -7,14 +7,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-//import java.net.http.HttpHeaders;
-
 @Service
 public class FileService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public ResponseDto upload (MultipartFile file) {
-        String url = "";
+        String url = "localhost:8091/upload";
 
         LinkedMultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", file);
