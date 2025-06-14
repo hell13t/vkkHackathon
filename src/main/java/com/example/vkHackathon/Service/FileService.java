@@ -28,7 +28,7 @@ public class FileService {
     }
 
     public ResponseDto upload (MultipartFile file) throws IOException {
-        String url = "http://localhost:8091/upload";
+        String url = "http://pysvc:8091/upload";
 
         LinkedMultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("file", file);
