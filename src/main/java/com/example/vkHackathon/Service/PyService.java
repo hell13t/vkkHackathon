@@ -5,6 +5,7 @@ import com.example.vkHackathon.dto.ResponseDto;
 import com.example.vkHackathon.util.Utils;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,10 +23,10 @@ public class PyService {
         if (dto == null) return null;
 
         List<String> reasons = new ArrayList<>();
+        String country = dto.getForeignPartnerCountry().trim();
 
         // Проверка на РФ, РБ, Украина
         if (dto.getForeignPartnerCountry() != null) {
-            String country = dto.getForeignPartnerCountry().trim();
 
             if (country.equalsIgnoreCase("рк") || country.equalsIgnoreCase("rk")) {
                 reasons.add("Валютные операции между резидентами РК запрещены.");
@@ -56,6 +57,31 @@ public class PyService {
                     reasons.add("Неверный код валюты: " + currencyCode);
                 }
             }
+        }
+
+        // Проверка даты договора
+        if (dto.getContractDate() == null) {
+            reasons.add("Нет даты договора");
+        }
+
+        // Проверка номера договора
+        if (dto.getContractNumber() == null || dto.getContractNumber().isBlank()) {
+            reasons.add("Нет номера договора");
+        }
+
+        // Проверка суммы договора
+        if (dto.getContractAmount() == null || dto.getContractAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            reasons.add("Нет суммы договора");
+        }
+
+        // Проверка ТНВЭД кода
+        if (country.equalsIgnoreCase("РФ") && (dto.getTnvedCode() == null || dto.getTnvedCode().isBlank())) {
+            reasons.add("В договоре нет кода ТНВЭД");
+        }
+
+        // Проверка срока репатриации
+        if (dto.getRepatriationPeriod() <= 0) {
+            reasons.add("Нет сроков репатриации в договоре");
         }
 
         ResponseDto response = new ResponseDto();
